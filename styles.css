@@ -1,0 +1,48 @@
+/* 为滑动添加平滑过渡效果 */
+.swiper-container {
+  transition: transform 0.3s ease-out;
+}
+
+/* 箭头样式优化 */
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  bottom: 20px; /* 调整到底部 */
+  top: auto;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transition: all 0.3s ease; /* 添加过渡动画 */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: scale(1.1); /* 悬停时放大效果 */
+}
+
+/* 隐藏向下箭头 */
+.swiper-button-prev {
+  display: none;
+}
+
+/* 最后一页隐藏箭头 */
+.swiper-slide-last .swiper-button-next {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 添加箭头动画 */
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.swiper-button-next::after {
+  animation: arrowBounce 2s infinite;
+} 
