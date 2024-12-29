@@ -45,4 +45,44 @@
 
 .swiper-button-next::after {
   animation: arrowBounce 2s infinite;
+}
+
+/* 修改箭头样式和位置 */
+.swiper-button-next {
+    position: fixed; /* 改为fixed定位 */
+    bottom: 20px; /* 距离底部20px */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 确保完全居中 */
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin: 0; /* 清除默认边距 */
+}
+
+/* 修改箭头图标样式 */
+.swiper-button-next::after {
+    content: ''; /* 清除默认箭头 */
+    width: 15px;
+    height: 15px;
+    border-left: 3px solid #333;
+    border-top: 3px solid #333;
+    transform: rotate(45deg); /* 旋转使其朝上 */
+    margin-top: 5px; /* 微调位置 */
+    animation: arrowBounce 2s infinite;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .swiper-button-next {
+        bottom: 40px; /* 移动端底部留更多空间 */
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* 隐藏原有的prev按钮 */
+.swiper-button-prev {
+    display: none !important;
 } 
