@@ -47,4 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('touchmove', function(e) {
         e.preventDefault();
     }, { passive: false });
+
+    // 为所有滑块添加背景图
+    document.querySelectorAll('.swiper-slide').forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img) {
+            slide.style.setProperty('--bg-image', `url(${img.src})`);
+        }
+    });
 }); 
