@@ -28,26 +28,16 @@ html, body {
     position: relative;
     background: linear-gradient(to bottom,
         var(--top-color, #ffffff) 0%,
-        var(--top-color, #ffffff) calc(50% - var(--image-height, 50%) / 2),
-        transparent calc(50% - var(--image-height, 50%) / 2),
-        transparent calc(50% + var(--image-height, 50%) / 2),
-        var(--bottom-color, #ffffff) calc(50% + var(--image-height, 50%) / 2),
+        var(--top-color, #ffffff) calc(50% - var(--image-height, 50%) / 2 + 2px),
+        transparent calc(50% - var(--image-height, 50%) / 2 + 2px),
+        transparent calc(50% + var(--image-height, 50%) / 2 - 2px),
+        var(--bottom-color, #ffffff) calc(50% + var(--image-height, 50%) / 2 - 2px),
         var(--bottom-color, #ffffff) 100%
     );
 }
 
 .swiper-slide::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px) brightness(0.7);
-    transform: scale(1.1);
-    z-index: 0;
+    display: none;
 }
 
 .swiper-slide img {

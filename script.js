@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
         canvas.height = img.naturalHeight;
         ctx.drawImage(img, 0, 0);
 
-        // 获取顶部和底部的颜色
-        const topRow = ctx.getImageData(0, 0, canvas.width, 1).data;
-        const bottomRow = ctx.getImageData(0, canvas.height - 1, canvas.width, 1).data;
+        // 获取更多行的数据来确保获取纯色区域
+        const topRows = ctx.getImageData(0, 0, canvas.width, 10).data;
+        const bottomRows = ctx.getImageData(0, canvas.height - 10, canvas.width, 10).data;
 
-        // 计算顶部和底部的主要颜色
-        const topColor = getAverageColor(topRow);
-        const bottomColor = getAverageColor(bottomRow);
+        // 获取最常见的颜色
+        const topColor = getMostFrequentColor(topRows);
+        const bottomColor = getMostFrequentColor(bottomRows);
 
         // 设置滑块的CSS变量
         slide.style.setProperty('--top-color', topColor);
@@ -82,20 +82,31 @@ document.addEventListener('DOMContentLoaded', function() {
         slide.style.setProperty('--image-height', `${heightRatio}%`);
     }
 
-    function getAverageColor(pixels) {
-        let r = 0, g = 0, b = 0;
-        const numPixels = pixels.length / 4;
+    function getMostFrequentColor(pixels) {
+        const colorMap = new Map();
         
+        // 遍历像素数据，统计颜色出现频率
         for (let i = 0; i < pixels.length; i += 4) {
-            r += pixels[i];
-            g += pixels[i + 1];
-            b += pixels[i + 2];
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const colorKey = `${r},${g},${b}`;
+            
+            colorMap.set(colorKey, (colorMap.get(colorKey) || 0) + 1);
         }
         
-        r = Math.round(r / numPixels);
-        g = Math.round(g / numPixels);
-        b = Math.round(b / numPixels);
+        // 找出出现最多的颜色
+        let maxCount = 0;
+        let dominantColor = '255,255,255'; // 默认白色
+
+        for (const [color, count] of colorMap.entries()) {
+            if (count > maxCount) {
+                maxCount = count;
+                dominantColor = color;
+            }
+        }
         
+        const [r, g, b] = dominantColor.split(',').map(Number);
         return `rgb(${r}, ${g}, ${b})`;
     }
 
