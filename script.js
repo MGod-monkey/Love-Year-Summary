@@ -47,4 +47,42 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('touchmove', function(e) {
         e.preventDefault();
     }, { passive: false });
+
+    // 音乐控制
+    const musicControl = document.querySelector('.music-control');
+    const bgMusic = document.getElementById('bgMusic');
+    let isPlaying = false;
+
+    // 音乐控制点击事件
+    musicControl.addEventListener('click', function() {
+        if (isPlaying) {
+            bgMusic.pause();
+            musicControl.classList.remove('playing');
+        } else {
+            bgMusic.play();
+            musicControl.classList.add('playing');
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // 自动播放（需要用户交互）
+    document.addEventListener('click', function initAudio() {
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            musicControl.classList.add('playing');
+            // 移除这个一次性的事件监听器
+            document.removeEventListener('click', initAudio);
+        }).catch(err => {
+            console.log('Auto play failed:', err);
+        });
+    }, { once: true });
+
+    // 页面隐藏时暂停音乐
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            bgMusic.pause();
+            musicControl.classList.remove('playing');
+            isPlaying = false;
+        }
+    });
 }); 

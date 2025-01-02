@@ -119,4 +119,55 @@ html, body {
         width: 20px;
         height: 20px;
     }
+}
+
+/* 添加音乐控制按钮样式 */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-control i {
+    font-size: 20px;
+    color: #333;
+}
+
+/* 添加旋转动画 */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 播放状态的样式 */
+.music-control.playing {
+    animation: rotate 3s linear infinite;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .music-control {
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+    }
+
+    .music-control i {
+        font-size: 16px;
+    }
 } 
