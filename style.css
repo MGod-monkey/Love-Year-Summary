@@ -26,14 +26,6 @@ html, body {
     justify-content: center;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(to bottom,
-        var(--top-color, #ffffff) 0%,
-        var(--top-color, #ffffff) calc(50% - var(--image-height, 50%) / 2 + 2px),
-        transparent calc(50% - var(--image-height, 50%) / 2 + 2px),
-        transparent calc(50% + var(--image-height, 50%) / 2 - 2px),
-        var(--bottom-color, #ffffff) calc(50% + var(--image-height, 50%) / 2 - 2px),
-        var(--bottom-color, #ffffff) 100%
-    );
 }
 
 .swiper-slide::before {
@@ -112,4 +104,40 @@ html, body {
         width: 20px;
         height: 20px;
     }
+}
+
+.swiper-slide:nth-child(1) {
+    background-color: #ebae92;
+}
+
+.swiper-slide:nth-child(2) {
+    background-color: #6688b8;
+}
+
+.swiper-slide:nth-child(3) {
+    background-color: #e1dfc8;
+}
+
+.swiper-slide:nth-child(4) {
+    background-color: #c0d8d8;
+}
+
+.swiper-slide:nth-child(5) {
+    background-color: #3d4f77;
+}
+
+.swiper-slide:nth-child(6) {
+    background-color: #b5d5bd;
+}
+
+.swiper-slide:nth-child(7) {
+    background-color: #fedd6c;
+}
+
+.swiper-slide:nth-child(8) {
+    background-color: #ffe3ef;
+}
+
+.swiper-slide:nth-child(9) {
+    background-color: #ebae92;
 } 
