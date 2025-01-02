@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 防止移动端浏览器工具栏导致的视口问题
+    // 视口高度修复
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
@@ -8,55 +8,42 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
 
-    // 初始化Swiper
     const swiper = new Swiper('.swiper-container', {
         direction: 'vertical',
         slidesPerView: 1,
-        spaceBetween: 0,
+        speed: 800,
         mousewheel: true,
-        speed: 600,
+        effect: 'slide',
         resistance: true,
         resistanceRatio: 0.5,
-        
         touchRatio: 1,
         touchAngle: 45,
-        grabCursor: true,
         
-        effect: 'slide',
-        
-        // 优化移动端触摸体验
+        // 优化触摸体验
         touchStartPreventDefault: false,
         touchMoveStopPropagation: true,
         
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        
         on: {
             slideChange: function () {
-                const isLastSlide = this.isEnd;
-                const nextButton = document.querySelector('.swiper-button-next');
-                
-                if (isLastSlide) {
-                    nextButton.style.opacity = '0';
-                    nextButton.style.pointerEvents = 'none';
+                const arrow = document.querySelector('.scroll-arrow');
+                // 在最后一页隐藏箭头
+                if (this.isEnd) {
+                    arrow.style.opacity = '0';
+                    arrow.style.pointerEvents = 'none';
                 } else {
-                    nextButton.style.opacity = '1';
-                    nextButton.style.pointerEvents = 'auto';
+                    arrow.style.opacity = '1';
+                    arrow.style.pointerEvents = 'auto';
                 }
-            },
-            
-            touchStart: function () {
-                this.params.speed = 600;
-            },
-            touchEnd: function () {
-                this.params.speed = 300;
             }
         }
     });
 
-    // 禁用浏览器默认的触摸行为
+    // 点击箭头滑到下一页
+    document.querySelector('.scroll-arrow').addEventListener('click', () => {
+        swiper.slideNext();
+    });
+
+    // 禁用默认的触摸行为
     document.addEventListener('touchmove', function(e) {
         e.preventDefault();
     }, { passive: false });
