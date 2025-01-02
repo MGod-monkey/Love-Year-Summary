@@ -26,6 +26,14 @@ html, body {
     justify-content: center;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(to bottom,
+        var(--top-color, #ffffff) 0%,
+        var(--top-color, #ffffff) calc(50% - var(--image-height, 50%) / 2),
+        transparent calc(50% - var(--image-height, 50%) / 2),
+        transparent calc(50% + var(--image-height, 50%) / 2),
+        var(--bottom-color, #ffffff) calc(50% + var(--image-height, 50%) / 2),
+        var(--bottom-color, #ffffff) 100%
+    );
 }
 
 .swiper-slide::before {

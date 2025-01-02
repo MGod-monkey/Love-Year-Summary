@@ -48,11 +48,57 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
     }, { passive: false });
 
-    // 为所有滑块添加背景图
-    document.querySelectorAll('.swiper-slide').forEach(slide => {
+    // 提取图片边缘颜色并设置背景
+    function setSlideColors(slide) {
         const img = slide.querySelector('img');
-        if (img) {
-            slide.style.setProperty('--bg-image', `url(${img.src})`);
+        if (!img.complete) {
+            img.onload = () => processImage(img, slide);
+        } else {
+            processImage(img, slide);
         }
-    });
+    }
+
+    function processImage(img, slide) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.drawImage(img, 0, 0);
+
+        // 获取顶部和底部的颜色
+        const topRow = ctx.getImageData(0, 0, canvas.width, 1).data;
+        const bottomRow = ctx.getImageData(0, canvas.height - 1, canvas.width, 1).data;
+
+        // 计算顶部和底部的主要颜色
+        const topColor = getAverageColor(topRow);
+        const bottomColor = getAverageColor(bottomRow);
+
+        // 设置滑块的CSS变量
+        slide.style.setProperty('--top-color', topColor);
+        slide.style.setProperty('--bottom-color', bottomColor);
+        
+        // 设置图片高度比例
+        const heightRatio = (img.naturalHeight / img.naturalWidth) * 100;
+        slide.style.setProperty('--image-height', `${heightRatio}%`);
+    }
+
+    function getAverageColor(pixels) {
+        let r = 0, g = 0, b = 0;
+        const numPixels = pixels.length / 4;
+        
+        for (let i = 0; i < pixels.length; i += 4) {
+            r += pixels[i];
+            g += pixels[i + 1];
+            b += pixels[i + 2];
+        }
+        
+        r = Math.round(r / numPixels);
+        g = Math.round(g / numPixels);
+        b = Math.round(b / numPixels);
+        
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // 为所有滑块设置颜色
+    document.querySelectorAll('.swiper-slide').forEach(setSlideColors);
 }); 
