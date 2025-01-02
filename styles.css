@@ -1,88 +1,104 @@
-/* 为滑动添加平滑过渡效果 */
+/* 重置基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Swiper容器样式 */
 .swiper-container {
-  transition: transform 0.3s ease-out;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* 箭头样式优化 */
-.swiper-button-next,
-.swiper-button-prev {
-  position: absolute;
-  bottom: 20px; /* 调整到底部 */
-  top: auto;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  transition: all 0.3s ease; /* 添加过渡动画 */
+/* 优化图片显示 */
+.swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background-color: rgba(255, 255, 255, 1);
-  transform: scale(1.1); /* 悬停时放大效果 */
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保图片填充整个容器 */
+    pointer-events: none; /* 防止图片被拖动 */
 }
 
-/* 隐藏向下箭头 */
-.swiper-button-prev {
-  display: none;
+/* 移动端适配优化 */
+@media (max-width: 768px) {
+    .swiper-container {
+        height: 100vh;
+        /* 处理移动端浏览器底部工具栏 */
+        height: -webkit-fill-available;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .swiper-button-next {
+        bottom: max(20px, env(safe-area-inset-bottom)); /* 适配iPhone底部黑条 */
+        width: 32px;
+        height: 32px;
+    }
+
+    .swiper-button-next::after {
+        width: 12px;
+        height: 12px;
+        border-width: 2px;
+    }
 }
 
-/* 最后一页隐藏箭头 */
-.swiper-slide-last .swiper-button-next {
-  opacity: 0;
-  pointer-events: none;
+/* 处理横屏模式 */
+@media (orientation: landscape) and (max-width: 900px) {
+    .swiper-slide img {
+        object-fit: contain;
+    }
 }
 
-/* 添加箭头动画 */
-@keyframes arrowBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.swiper-button-next::after {
-  animation: arrowBounce 2s infinite;
-}
-
-/* 修改箭头样式和位置 */
+/* 优化箭头样式 */
 .swiper-button-next {
-    position: fixed; /* 改为fixed定位 */
-    bottom: 20px; /* 距离底部20px */
-    left: 50%; /* 水平居中 */
-    transform: translateX(-50%); /* 确保完全居中 */
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
     width: 40px;
     height: 40px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     transition: all 0.3s ease;
-    margin: 0; /* 清除默认边距 */
+    margin: 0;
+    z-index: 100;
 }
 
-/* 修改箭头图标样式 */
 .swiper-button-next::after {
-    content: ''; /* 清除默认箭头 */
+    content: '';
     width: 15px;
     height: 15px;
     border-left: 3px solid #333;
     border-top: 3px solid #333;
-    transform: rotate(45deg); /* 旋转使其朝上 */
-    margin-top: 5px; /* 微调位置 */
+    transform: rotate(45deg);
+    margin-top: 5px;
     animation: arrowBounce 2s infinite;
+    display: block;
+    margin: auto;
 }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-    .swiper-button-next {
-        bottom: 40px; /* 移动端底部留更多空间 */
-        width: 36px;
-        height: 36px;
-    }
-}
-
-/* 隐藏原有的prev按钮 */
-.swiper-button-prev {
-    display: none !important;
+/* 隐藏不需要的导航元素 */
+.navigation, .up-arrow, .down-arrow {
+    display: none;
 } 
